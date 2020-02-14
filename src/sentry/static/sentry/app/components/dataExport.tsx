@@ -1,10 +1,12 @@
 import React from 'react';
-import AsyncComponent from 'app/components/asyncComponent';
-import styled from '@emotion/styled';
-import space from 'app/styles/space';
-import {Organization} from 'app/types';
-import withOrganization from 'app/utils/withOrganization';
+
+import {Client} from 'app/api';
+import Feature from 'app/components/acl/feature';
+import Tooltip from 'app/components/tooltip';
 import {t} from 'app/locale';
+import {Organization} from 'app/types';
+import withApi from 'app/utils/withApi';
+import withOrganization from 'app/utils/withOrganization';
 
 type DataExportPayload = {
   query_type: number;
@@ -12,6 +14,7 @@ type DataExportPayload = {
 };
 
 type Props = {
+  api: Client;
   organization: Organization;
   payload: DataExportPayload;
 };
@@ -21,20 +24,18 @@ type State = {
   dataExportId?: number;
 };
 
-const Button = styled('button')`
-  margin-left: ${space(1)};
-`;
+const TooltipMessages = {
+  start: "We'll get all your data in one place and email you when it's ready",
+  progress: "We'll email you when it's ready",
+} as const;
 
-class DataExport extends AsyncComponent<
-  Props & AsyncComponent['props'],
-  State & AsyncComponent['state']
-> {
+class DataExport extends React.Component<Props, State> {
   async startDataExport() {
     const {
       organization: {slug},
       payload,
     } = this.props;
-    const {id: dataExportId} = await this.api.requestPromise(
+    const {id: dataExportId} = await this.props.api.requestPromise(
       `/organizations/${slug}/data-export/`,
       {
         method: 'POST',
@@ -45,29 +46,28 @@ class DataExport extends AsyncComponent<
   }
 
   render() {
-    const {
-      organization: {slug},
-    } = this.props;
     const {inProgress, dataExportId} = this.state;
     return (
-      <React.Fragment>
+      <Feature features={['data-export']}>
         {inProgress && dataExportId ? (
-          <a href={`/organizations/${slug}/data-export/${dataExportId}/`}>
-            <Button style={{marginLeft: 10}} className="btn btn-default btn-sm">
-              {t('Click for Progress...')}
-            </Button>
-          </a>
+          <Tooltip title={TooltipMessages.progress}>
+            <button className="btn btn-default btn-sm" disabled>
+              {t('Queued up!')}
+            </button>
+          </Tooltip>
         ) : (
-          <Button
-            className="btn btn-default btn-sm"
-            onClick={() => this.startDataExport()}
-          >
-            {t('Export All to CSV')}
-          </Button>
+          <Tooltip title={TooltipMessages.start}>
+            <button
+              className="btn btn-default btn-sm"
+              onClick={() => this.startDataExport()}
+            >
+              {t('Export All to CSV')}
+            </button>
+          </Tooltip>
         )}
-      </React.Fragment>
+      </Feature>
     );
   }
 }
 
-export default withOrganization(DataExport);
+export default withApi(withOrganization(DataExport));

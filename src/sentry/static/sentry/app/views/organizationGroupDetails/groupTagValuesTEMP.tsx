@@ -116,7 +116,7 @@ class GroupTagValues extends AsyncComponent<
           <a
             href={`/${orgId}/${group.project.slug}/issues/${group.id}/tags/${this.props.params.tagKey}/export/`}
             className="btn btn-default btn-sm"
-            style={{marginLeft: 10}}
+            style={{marginLeft: 10, marginRight: 10}}
           >
             {t('Export Page to CSV')}
           </a>
