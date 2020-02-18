@@ -1204,27 +1204,28 @@ class ResolveFieldListTest(unittest.TestCase):
         result = resolve_field_list(fields, {})
         assert result["selected_columns"] == [
             "title",
-            "project.id",
             "issue.id",
             "user.id",
             "user.username",
             "user.email",
             "user.ip",
             "message",
+            "project.id",
         ]
         assert result["aggregations"] == [
+            ["transform(project_id, [], [], '')", None, "project"],
             ["max", "timestamp", "last_seen"],
             ["argMax", ["id", "timestamp"], "latest_event"],
         ]
         assert result["groupby"] == [
             "title",
-            "project.id",
             "issue.id",
             "user.id",
             "user.username",
             "user.email",
             "user.ip",
             "message",
+            "project.id",
         ]
 
     def test_aggregate_function_expansion(self):

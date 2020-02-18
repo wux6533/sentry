@@ -1077,15 +1077,21 @@ def resolve_field_list(fields, snuba_args, auto_fields=True):
     aggregations = []
     columns = []
     groupby = []
+    project_key = ""
 
     # If project is requested, we need to map ids to their names since snuba only has ids
     if "project" in fields:
         fields.remove("project")
+        project_key = "project"
+    # sincte project.name is more specific, if both are included use project.name instead of project
+    if PROJECT_NAME_ALIAS in fields:
+        fields.remove(PROJECT_NAME_ALIAS)
+        project_key = PROJECT_NAME_ALIAS
+
+    if project_key:
         if "project.id" not in fields:
             fields.append("project.id")
-        project_ids = snuba_args["filter_keys"].get(
-            "project_id", []
-        )  # only gets used if sorting by project
+        project_ids = snuba_args.get("filter_keys", {}).get("project_id", [])
         projects = Project.objects.filter(id__in=project_ids).values("slug", "id")
         aggregations.append(
             [
@@ -1095,7 +1101,7 @@ def resolve_field_list(fields, snuba_args, auto_fields=True):
                     [six.binary_type(project["slug"]) for project in projects],
                 ),
                 None,
-                "project",
+                project_key,
             ]
         )
 

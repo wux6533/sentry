@@ -69,8 +69,7 @@ class QueryIntegrationTest(SnubaTestCase, TestCase):
         )
         data = result["data"]
         assert len(data) == 3
-        assert data[0]["project"] < data[1]["project"]
-        assert data[1]["project"] < data[2]["project"]
+        assert [item["project"] for item in data] == ["a" * 32, "m" * 32, "z" * 32]
 
     def test_reverse_sorting_project_name(self):
         project_ids = []
@@ -90,8 +89,50 @@ class QueryIntegrationTest(SnubaTestCase, TestCase):
         )
         data = result["data"]
         assert len(data) == 3
-        assert data[0]["project"] > data[1]["project"]
-        assert data[1]["project"] > data[2]["project"]
+        assert [item["project"] for item in data] == ["z" * 32, "m" * 32, "a" * 32]
+
+    def test_using_project_and_project_name(self):
+        project_ids = []
+        for project_name in ["a" * 32, "z" * 32, "m" * 32]:
+            other_project = self.create_project(organization=self.organization, slug=project_name)
+            project_ids.append(other_project.id)
+            self.store_event(
+                data={"message": "ohh no", "timestamp": iso_format(before_now(minutes=1))},
+                project_id=other_project.id,
+            )
+
+        result = discover.query(
+            selected_columns=["project.name", "message", "project"],
+            query="",
+            params={"project_id": project_ids},
+            orderby="project.name",
+        )
+        data = result["data"]
+        assert len(data) == 3
+        assert [item["project.name"] for item in data] == ["a" * 32, "m" * 32, "z" * 32]
+
+    def test_missing_project(self):
+        project_ids = []
+        for project_name in ["a" * 32, "z" * 32, "m" * 32]:
+            other_project = self.create_project(organization=self.organization, slug=project_name)
+            project_ids.append(other_project.id)
+            self.store_event(
+                data={"message": "ohh no", "timestamp": iso_format(before_now(minutes=1))},
+                project_id=other_project.id,
+            )
+
+        # delete the last project so its missing
+        other_project.delete()
+
+        result = discover.query(
+            selected_columns=["project.name", "message", "project"],
+            query="",
+            params={"project_id": project_ids},
+            orderby="project.name",
+        )
+        data = result["data"]
+        assert len(data) == 3
+        assert [item["project.name"] for item in data] == ["", "a" * 32, "z" * 32]
 
     def test_field_aliasing_in_selected_columns(self):
         result = discover.query(
