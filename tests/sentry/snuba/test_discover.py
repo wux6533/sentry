@@ -342,8 +342,8 @@ class QueryTransformTest(TestCase):
             selected_columns=["user_id", "username", "email", "ip_address", "project_id"],
             aggregations=[
                 [
-                    "transform(project_id, [{}], {}, '')".format(
-                        six.text_type(self.project.id), [six.text_type(self.project.slug)]
+                    "transform(project_id, [{}], ['{}'], '')".format(
+                        six.text_type(self.project.id), self.project.slug
                     ),
                     None,
                     "project",
@@ -413,8 +413,8 @@ class QueryTransformTest(TestCase):
                 ["argMax", ["event_id", "timestamp"], "latest_event"],
                 ["argMax", ["project_id", "timestamp"], "projectid"],
                 [
-                    "transform(projectid, [{}], {}, '')".format(
-                        six.text_type(self.project.id), [six.text_type(self.project.slug)]
+                    "transform(projectid, [{}], ['{}'], '')".format(
+                        six.text_type(self.project.id), self.project.slug
                     ),
                     None,
                     "project.name",
@@ -453,8 +453,8 @@ class QueryTransformTest(TestCase):
                 ["argMax", ["event_id", "timestamp"], "latest_event"],
                 ["argMax", ["project_id", "timestamp"], "projectid"],
                 [
-                    "transform(projectid, [{}], {}, '')".format(
-                        six.text_type(self.project.id), [six.text_type(self.project.slug)]
+                    "transform(projectid, [{}], ['{}'], '')".format(
+                        six.text_type(self.project.id), self.project.slug
                     ),
                     None,
                     "project.name",
@@ -493,8 +493,8 @@ class QueryTransformTest(TestCase):
                 ["argMax", ["event_id", "timestamp"], "latest_event"],
                 ["argMax", ["project_id", "timestamp"], "projectid"],
                 [
-                    "transform(projectid, [{}], {}, '')".format(
-                        six.text_type(self.project.id), [six.text_type(self.project.slug)]
+                    "transform(projectid, [{}], ['{}'], '')".format(
+                        six.text_type(self.project.id), self.project.slug
                     ),
                     None,
                     "project.name",
@@ -532,8 +532,8 @@ class QueryTransformTest(TestCase):
                 ["argMax", ["event_id", "timestamp"], "latest_event"],
                 ["argMax", ["project_id", "timestamp"], "projectid"],
                 [
-                    "transform(projectid, [{}], {}, '')".format(
-                        six.text_type(self.project.id), [six.text_type(self.project.slug)]
+                    "transform(projectid, [{}], ['{}'], '')".format(
+                        six.text_type(self.project.id), self.project.slug
                     ),
                     None,
                     "project.name",
@@ -573,8 +573,8 @@ class QueryTransformTest(TestCase):
                 ["argMax", ["event_id", "timestamp"], "latest_event"],
                 ["argMax", ["project_id", "timestamp"], "projectid"],
                 [
-                    "transform(projectid, [{}], {}, '')".format(
-                        six.text_type(self.project.id), [six.text_type(self.project.slug)]
+                    "transform(projectid, [{}], ['{}'], '')".format(
+                        six.text_type(self.project.id), six.text_type(self.project.slug)
                     ),
                     None,
                     "project.name",
