@@ -1078,32 +1078,20 @@ def resolve_field_list(fields, snuba_args, auto_fields=True):
     columns = []
     groupby = []
     project_key = ""
+    # Which column to map to project names
+    project_column = "project_id"
 
     # If project is requested, we need to map ids to their names since snuba only has ids
     if "project" in fields:
         fields.remove("project")
         project_key = "project"
-    # sincte project.name is more specific, if both are included use project.name instead of project
+    # since project.name is more specific, if both are included use project.name instead of project
     if PROJECT_NAME_ALIAS in fields:
         fields.remove(PROJECT_NAME_ALIAS)
         project_key = PROJECT_NAME_ALIAS
-
     if project_key:
         if "project.id" not in fields:
             fields.append("project.id")
-        project_ids = snuba_args.get("filter_keys", {}).get("project_id", [])
-        projects = Project.objects.filter(id__in=project_ids).values("slug", "id")
-        aggregations.append(
-            [
-                "transform(project_id, [{}], {}, '')".format(
-                    # Need to use join like this so we don't get a list including Ls which confuses clickhouse
-                    ",".join([six.binary_type(project["id"]) for project in projects]),
-                    [six.binary_type(project["slug"]) for project in projects],
-                ),
-                None,
-                project_key,
-            ]
-        )
 
     for field in fields:
         column_additions, agg_additions = resolve_field(field)
@@ -1125,10 +1113,30 @@ def resolve_field_list(fields, snuba_args, auto_fields=True):
             columns.append("id")
         if not aggregations and "project.id" not in columns:
             columns.append("project.id")
+            project_column = "project_id"
         if aggregations and "latest_event" not in map(lambda a: a[-1], aggregations):
             aggregations.extend(deepcopy(FIELD_ALIASES["latest_event"]["aggregations"]))
         if aggregations and "project.id" not in columns:
             aggregations.append(["argMax", ["project.id", "timestamp"], "projectid"])
+            project_column = "projectid"
+        if project_key == "":
+            project_key = PROJECT_NAME_ALIAS
+
+    if project_key:
+        project_ids = snuba_args.get("filter_keys", {}).get("project_id", [])
+        projects = Project.objects.filter(id__in=project_ids).values("slug", "id")
+        aggregations.append(
+            [
+                "transform({}, [{}], {}, '')".format(
+                    project_column,
+                    # Need to use join like this so we don't get a list including Ls which confuses clickhouse
+                    ",".join([six.binary_type(project["id"]) for project in projects]),
+                    [six.binary_type(project["slug"]) for project in projects],
+                ),
+                None,
+                project_key,
+            ]
+        )
 
     if rollup and columns and not aggregations:
         raise InvalidSearchQuery("You cannot use rollup without an aggregate field.")

@@ -347,10 +347,7 @@ class OrganizationEventsV2EndpointTest(APITestCase, SnubaTestCase):
             response = self.client.get(
                 self.url,
                 format="json",
-                data={
-                    "field": ["count(id)", "project.id", "project", "issue.id"],
-                    "orderby": "issue.id",
-                },
+                data={"field": ["count(id)", "project.id", "issue.id"], "orderby": "issue.id"},
             )
 
         assert response.status_code == 200, response.content
@@ -358,14 +355,14 @@ class OrganizationEventsV2EndpointTest(APITestCase, SnubaTestCase):
         data = response.data["data"]
         assert data[0] == {
             "project.id": project.id,
-            "project": project.slug,
+            "project.name": project.slug,
             "issue.id": event1.group_id,
             "count_id": 2,
             "latest_event": event1.event_id,
         }
         assert data[1] == {
             "project.id": project.id,
-            "project": project.slug,
+            "project.name": project.slug,
             "issue.id": event2.group_id,
             "count_id": 1,
             "latest_event": event2.event_id,
@@ -391,7 +388,11 @@ class OrganizationEventsV2EndpointTest(APITestCase, SnubaTestCase):
         assert response.status_code == 200, response.content
         assert len(response.data["data"]) == 1
         data = response.data["data"]
-        assert data[0] == {"count_id": 2, "latest_event": event.event_id}
+        assert data[0] == {
+            "project.name": project.slug,
+            "count_id": 2,
+            "latest_event": event.event_id,
+        }
         meta = response.data["meta"]
         assert meta["count_id"] == "integer"
         assert meta["latest_event"] == "string"
@@ -508,7 +509,7 @@ class OrganizationEventsV2EndpointTest(APITestCase, SnubaTestCase):
         assert data[0]["count_id"] == 1
         assert data[0]["count_unique_user"] == 1
         assert "latest_event" in data[0]
-        assert "project.name" not in data[0]
+        assert "project.name" in data[0]
         assert "projectid" not in data[0]
         assert "project.id" not in data[0]
         assert data[1]["issue.id"] == event2.group_id
@@ -1033,6 +1034,7 @@ class OrganizationEventsV2EndpointTest(APITestCase, SnubaTestCase):
         assert response.status_code == 200, response.content
         data = response.data["data"]
         assert len(data) == 1
+        assert data[0]["project.name"] == ""
         assert data[0]["count"] == 0
         assert data[0]["latest_event"] == ""
 

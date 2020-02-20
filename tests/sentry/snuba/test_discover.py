@@ -189,11 +189,12 @@ class QueryIntegrationTest(SnubaTestCase, TestCase):
         assert data[0]["user.email"] == "bruce@example.com"
         assert data[0]["release"] == "first-release"
 
-        assert len(result["meta"]) == 4
+        assert len(result["meta"]) == 9
         assert result["meta"][0] == {"name": "user.email", "type": "Nullable(String)"}
         assert result["meta"][1] == {"name": "release", "type": "Nullable(String)"}
         assert result["meta"][2] == {"name": "id", "type": "FixedString(32)"}
         assert result["meta"][3] == {"name": "project.id", "type": "UInt64"}
+        assert result["meta"][4] == {"name": "project.name", "type": "String"}
 
     def test_auto_fields_aggregates(self):
         result = discover.query(
@@ -411,6 +412,13 @@ class QueryTransformTest(TestCase):
                 ["uniq", "duration", "count_unique_transaction_duration"],
                 ["argMax", ["event_id", "timestamp"], "latest_event"],
                 ["argMax", ["project_id", "timestamp"], "projectid"],
+                [
+                    "transform(projectid, [{}], {}, '')".format(
+                        six.binary_type(self.project.id), [six.binary_type(self.project.slug)]
+                    ),
+                    None,
+                    "project.name",
+                ],
             ],
             filter_keys={"project_id": [self.project.id]},
             dataset=Dataset.Discover,
@@ -444,6 +452,13 @@ class QueryTransformTest(TestCase):
                 ["uniq", "transaction", "count_unique_transaction"],
                 ["argMax", ["event_id", "timestamp"], "latest_event"],
                 ["argMax", ["project_id", "timestamp"], "projectid"],
+                [
+                    "transform(projectid, [{}], {}, '')".format(
+                        six.binary_type(self.project.id), [six.binary_type(self.project.slug)]
+                    ),
+                    None,
+                    "project.name",
+                ],
             ],
             filter_keys={"project_id": [self.project.id]},
             dataset=Dataset.Discover,
@@ -477,6 +492,13 @@ class QueryTransformTest(TestCase):
                 ["uniq", "transaction", "count_unique_transaction"],
                 ["argMax", ["event_id", "timestamp"], "latest_event"],
                 ["argMax", ["project_id", "timestamp"], "projectid"],
+                [
+                    "transform(projectid, [{}], {}, '')".format(
+                        six.binary_type(self.project.id), [six.binary_type(self.project.slug)]
+                    ),
+                    None,
+                    "project.name",
+                ],
             ],
             filter_keys={"project_id": [self.project.id]},
             dataset=Dataset.Discover,
@@ -509,6 +531,13 @@ class QueryTransformTest(TestCase):
                 ["divide(countIf(notEquals(transaction_status, 0)), count(*))", None, "error_rate"],
                 ["argMax", ["event_id", "timestamp"], "latest_event"],
                 ["argMax", ["project_id", "timestamp"], "projectid"],
+                [
+                    "transform(projectid, [{}], {}, '')".format(
+                        six.binary_type(self.project.id), [six.binary_type(self.project.slug)]
+                    ),
+                    None,
+                    "project.name",
+                ],
             ],
             filter_keys={"project_id": [self.project.id]},
             dataset=Dataset.Discover,
@@ -543,6 +572,13 @@ class QueryTransformTest(TestCase):
                 ["quantile(0.75)(duration)", None, "percentile_transaction_duration_0_75"],
                 ["argMax", ["event_id", "timestamp"], "latest_event"],
                 ["argMax", ["project_id", "timestamp"], "projectid"],
+                [
+                    "transform(projectid, [{}], {}, '')".format(
+                        six.binary_type(self.project.id), [six.binary_type(self.project.slug)]
+                    ),
+                    None,
+                    "project.name",
+                ],
             ],
             filter_keys={"project_id": [self.project.id]},
             dataset=Dataset.Discover,
