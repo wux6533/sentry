@@ -1432,3 +1432,11 @@ class ResolveFieldListTest(unittest.TestCase):
             ["transform(projectid, [], [], '')", None, "project.name"],
         ]
         assert result["groupby"] == []
+
+    def test_orderby_project(self):
+        fields = ["project"]
+        snuba_args = {"orderby": "-project"}
+        result = resolve_field_list(fields, snuba_args)
+        assert result["orderby"] == ["-project"]
+        assert result["aggregations"] == [["transform(project_id, [], [], '')", None, "project"]]
+        assert result["groupby"] == ["project.id", "id"]

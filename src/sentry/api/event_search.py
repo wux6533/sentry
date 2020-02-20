@@ -926,14 +926,22 @@ FUNCTIONS = {
     "rps": {
         "name": "rps",
         "args": [
-            {"name": "interval", "type": NUMBER, "validator": lambda v: (v > 0, "must be positive integer")},
+            {
+                "name": "interval",
+                "type": NUMBER,
+                "validator": lambda v: (v > 0, "must be positive integer"),
+            }
         ],
         "transform": "divide(count(), %(interval)d)",
     },
     "rpm": {
         "name": "rpm",
         "args": [
-            {"name": "interval", "type": NUMBER, "validator": lambda v: (v >= 60, "must be greater than 60 seconds")},
+            {
+                "name": "interval",
+                "type": NUMBER,
+                "validator": lambda v: (v >= 60, "must be greater than 60 seconds"),
+            }
         ],
         "transform": "divide(count(), divide(%(interval)d, 60))",
     },
@@ -1130,8 +1138,8 @@ def resolve_field_list(fields, snuba_args, auto_fields=True):
                 "transform({}, [{}], {}, '')".format(
                     project_column,
                     # Need to use join like this so we don't get a list including Ls which confuses clickhouse
-                    ",".join([six.binary_type(project["id"]) for project in projects]),
-                    [six.binary_type(project["slug"]) for project in projects],
+                    ",".join([six.text_type(project["id"]) for project in projects]),
+                    [six.text_type(project["slug"]) for project in projects],
                 ),
                 None,
                 project_key,

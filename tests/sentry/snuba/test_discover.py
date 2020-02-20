@@ -343,7 +343,7 @@ class QueryTransformTest(TestCase):
             aggregations=[
                 [
                     "transform(project_id, [{}], {}, '')".format(
-                        six.binary_type(self.project.id), [six.binary_type(self.project.slug)]
+                        six.text_type(self.project.id), [six.text_type(self.project.slug)]
                     ),
                     None,
                     "project",
@@ -414,7 +414,7 @@ class QueryTransformTest(TestCase):
                 ["argMax", ["project_id", "timestamp"], "projectid"],
                 [
                     "transform(projectid, [{}], {}, '')".format(
-                        six.binary_type(self.project.id), [six.binary_type(self.project.slug)]
+                        six.text_type(self.project.id), [six.text_type(self.project.slug)]
                     ),
                     None,
                     "project.name",
@@ -454,7 +454,7 @@ class QueryTransformTest(TestCase):
                 ["argMax", ["project_id", "timestamp"], "projectid"],
                 [
                     "transform(projectid, [{}], {}, '')".format(
-                        six.binary_type(self.project.id), [six.binary_type(self.project.slug)]
+                        six.text_type(self.project.id), [six.text_type(self.project.slug)]
                     ),
                     None,
                     "project.name",
@@ -494,7 +494,7 @@ class QueryTransformTest(TestCase):
                 ["argMax", ["project_id", "timestamp"], "projectid"],
                 [
                     "transform(projectid, [{}], {}, '')".format(
-                        six.binary_type(self.project.id), [six.binary_type(self.project.slug)]
+                        six.text_type(self.project.id), [six.text_type(self.project.slug)]
                     ),
                     None,
                     "project.name",
@@ -533,7 +533,7 @@ class QueryTransformTest(TestCase):
                 ["argMax", ["project_id", "timestamp"], "projectid"],
                 [
                     "transform(projectid, [{}], {}, '')".format(
-                        six.binary_type(self.project.id), [six.binary_type(self.project.slug)]
+                        six.text_type(self.project.id), [six.text_type(self.project.slug)]
                     ),
                     None,
                     "project.name",
@@ -574,7 +574,7 @@ class QueryTransformTest(TestCase):
                 ["argMax", ["project_id", "timestamp"], "projectid"],
                 [
                     "transform(projectid, [{}], {}, '')".format(
-                        six.binary_type(self.project.id), [six.binary_type(self.project.slug)]
+                        six.text_type(self.project.id), [six.text_type(self.project.slug)]
                     ),
                     None,
                     "project.name",
