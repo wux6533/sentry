@@ -1168,7 +1168,7 @@ def resolve_field_list(fields, snuba_args, params=None, auto_fields=True):
         projects = Project.objects.filter(id__in=project_ids).values("slug", "id")
         aggregations.append(
             [
-                "transform({}, [{}], [{}], '')".format(
+                u"transform({}, [{}], [{}], '')".format(
                     project_column,
                     # Need to use join like this so we don't get a list including Ls which confuses clickhouse
                     ",".join([six.text_type(project["id"]) for project in projects]),
