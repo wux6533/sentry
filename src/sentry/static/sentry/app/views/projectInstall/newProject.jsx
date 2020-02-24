@@ -14,8 +14,7 @@ const NewProject = ({organization}) => (
         <DocumentTitle title="Sentry" />
         <CreateProject
           hasIssueAlertOptionsEnabled={
-            // TODO(Jeff): Rename to `AlertDefaultsExperiment` on real experiment run
-            organization.experiments?.AlertDefaultsExperimentTmp === 1
+            organization.experiments?.AlertDefaultsExperiment === 1
           }
         />
       </Content>
