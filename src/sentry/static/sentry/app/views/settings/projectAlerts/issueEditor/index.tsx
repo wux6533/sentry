@@ -213,52 +213,47 @@ class IssueRuleEditor extends AsyncView<Props, State> {
     });
   };
 
-  handlePropertyChange = (type: ConditionOrAction) => {
-    return (idx: number) => {
-      return (prop: string, val: string) => {
-        this.setState(state => {
-          const rule = {...state.rule} as IssueAlertRule;
-          rule[type][idx][prop] = val;
-          return {rule};
-        });
+  handlePropertyChange = (type: ConditionOrAction) => (idx: number) => (
+    prop: string,
+    val: string
+  ) => {
+    this.setState(state => {
+      const rule = {...state.rule} as IssueAlertRule;
+      rule[type][idx][prop] = val;
+      return {rule};
+    });
+  };
+
+  handleAddRow = (type: ConditionOrAction) => id => {
+    this.setState(state => {
+      const rule = {
+        ...state.rule,
+        [type]: [...(state.rule ? state.rule[type] : []), {id}],
+      } as IssueAlertRule;
+
+      return {
+        rule,
       };
-    };
+    });
   };
 
-  handleAddRow = (type: ConditionOrAction) => {
-    return id => {
-      this.setState(state => {
-        const rule = {
-          ...state.rule,
-          [type]: [...(state.rule ? state.rule[type] : []), {id}],
-        } as IssueAlertRule;
+  handleDeleteRow = (type: ConditionOrAction) => (idx: number) => {
+    this.setState(prevState => {
+      const newTypeList = prevState.rule ? [...prevState.rule[type]] : [];
 
-        return {
-          rule,
-        };
-      });
-    };
-  };
+      if (prevState.rule) {
+        newTypeList.splice(idx, 1);
+      }
 
-  handleDeleteRow = (type: ConditionOrAction) => {
-    return (idx: number) => {
-      this.setState(prevState => {
-        const newTypeList = prevState.rule ? [...prevState.rule[type]] : [];
+      const rule = {
+        ...prevState.rule,
+        [type]: newTypeList,
+      } as IssueAlertRule;
 
-        if (prevState.rule) {
-          newTypeList.splice(idx, 1);
-        }
-
-        const rule = {
-          ...prevState.rule,
-          [type]: newTypeList,
-        } as IssueAlertRule;
-
-        return {
-          rule,
-        };
-      });
-    };
+      return {
+        rule,
+      };
+    });
   };
 
   renderLoading() {

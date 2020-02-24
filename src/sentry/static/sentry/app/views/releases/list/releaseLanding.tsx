@@ -115,9 +115,7 @@ const ReleaseLanding = withOrganization(
         });
       };
 
-      getCard = stepId => {
-        return cards[stepId];
-      };
+      getCard = stepId => cards[stepId];
 
       render() {
         const {stepId} = this.state;

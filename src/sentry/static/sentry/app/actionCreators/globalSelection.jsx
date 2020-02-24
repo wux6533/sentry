@@ -7,10 +7,10 @@ import {defined} from 'app/utils';
 import {getUtcDateString} from 'app/utils/dates';
 import GlobalSelectionActions from 'app/actions/globalSelectionActions';
 
-const isEqualWithEmptyArrays = (newQuery, current) => {
+const isEqualWithEmptyArrays = (newQuery, current) =>
   // We will only get empty arrays from `newQuery`
   // Can't use isEqualWith because keys are unbalanced (guessing)
-  return isEqual(
+  isEqual(
     Object.entries(newQuery)
       .filter(([, value]) => !Array.isArray(value) || !!value.length)
       .reduce(
@@ -22,8 +22,6 @@ const isEqualWithEmptyArrays = (newQuery, current) => {
       ),
     current
   );
-};
-
 // Reset values in global selection store
 export function resetGlobalSelection() {
   GlobalSelectionActions.reset();

@@ -19,89 +19,81 @@ type Props = {
   projects: Project[] | AvatarProject[];
 };
 
-const ReleaseCard = ({release, projects}: Props) => {
+const ReleaseCard = ({release, projects}: Props) => (
   // TODO(releasesv2): probably makes sense at this point to split the header and data to different files (move styles to share layout file)
-  return (
-    <Panel>
-      <PanelBody>
-        <StyledPanelItem>
-          <HeaderLayout>
-            <VersionColumn>
-              <ColumnTitle>{t('Release')}</ColumnTitle>
-            </VersionColumn>
-            <ProjectsColumn>
+  <Panel>
+    <PanelBody>
+      <StyledPanelItem>
+        <HeaderLayout>
+          <VersionColumn>
+            <ColumnTitle>{t('Release')}</ColumnTitle>
+          </VersionColumn>
+          <ProjectsColumn>
+            <ColumnTitle>{tn('%s project', '%s projects', projects.length)}</ColumnTitle>
+          </ProjectsColumn>
+          <CommitsColumn>
+            {release.commitCount > 0 && (
               <ColumnTitle>
-                {tn('%s project', '%s projects', projects.length)}
+                {[
+                  tn('%s commit', '%s commits', release.commitCount || 0),
+                  t('by'),
+                  tn('%s author', '%s authors', release.authors?.length || 0),
+                ].join(' ')}
               </ColumnTitle>
-            </ProjectsColumn>
-            <CommitsColumn>
-              {release.commitCount > 0 && (
-                <ColumnTitle>
-                  {[
-                    tn('%s commit', '%s commits', release.commitCount || 0),
-                    t('by'),
-                    tn('%s author', '%s authors', release.authors?.length || 0),
-                  ].join(' ')}
-                </ColumnTitle>
-              )}
-            </CommitsColumn>
-            <CreatedColumn>
-              <ColumnTitle>{t('Created')}</ColumnTitle>
-            </CreatedColumn>
-            <LastEventColumn>
-              <ColumnTitle>{t('Last event')}</ColumnTitle>
-            </LastEventColumn>
-            <NewIssuesColumn>
-              <ColumnTitle>{t('New issues')}</ColumnTitle>
-            </NewIssuesColumn>
-          </HeaderLayout>
-          <Layout>
-            <VersionColumn>
-              <Version
-                version={release.version}
-                preserveGlobalSelection
-                tooltipRawVersion
-                truncate
-              />
-              <TimeWithIcon date={release.dateReleased || release.dateCreated} />
-            </VersionColumn>
+            )}
+          </CommitsColumn>
+          <CreatedColumn>
+            <ColumnTitle>{t('Created')}</ColumnTitle>
+          </CreatedColumn>
+          <LastEventColumn>
+            <ColumnTitle>{t('Last event')}</ColumnTitle>
+          </LastEventColumn>
+          <NewIssuesColumn>
+            <ColumnTitle>{t('New issues')}</ColumnTitle>
+          </NewIssuesColumn>
+        </HeaderLayout>
+        <Layout>
+          <VersionColumn>
+            <Version
+              version={release.version}
+              preserveGlobalSelection
+              tooltipRawVersion
+              truncate
+            />
+            <TimeWithIcon date={release.dateReleased || release.dateCreated} />
+          </VersionColumn>
 
-            <ProjectsColumn>
-              <ProjectList projects={projects} />
-            </ProjectsColumn>
+          <ProjectsColumn>
+            <ProjectList projects={projects} />
+          </ProjectsColumn>
 
-            <CommitsColumn>
-              <ReleaseStats release={release} withHeading={false} />
-            </CommitsColumn>
+          <CommitsColumn>
+            <ReleaseStats release={release} withHeading={false} />
+          </CommitsColumn>
 
-            <CreatedColumn>
-              {release.dateReleased || release.dateCreated ? (
-                <TimeSince date={release.dateReleased || release.dateCreated} />
-              ) : (
-                <span>-</span>
-              )}
-            </CreatedColumn>
+          <CreatedColumn>
+            {release.dateReleased || release.dateCreated ? (
+              <TimeSince date={release.dateReleased || release.dateCreated} />
+            ) : (
+              <span>-</span>
+            )}
+          </CreatedColumn>
 
-            <LastEventColumn>
-              {release.lastEvent ? (
-                <TimeSince date={release.lastEvent} />
-              ) : (
-                <span>—</span>
-              )}
-            </LastEventColumn>
+          <LastEventColumn>
+            {release.lastEvent ? <TimeSince date={release.lastEvent} /> : <span>—</span>}
+          </LastEventColumn>
 
-            <NewIssuesColumn>
-              <Count value={release.newGroups || 0} />
-            </NewIssuesColumn>
-          </Layout>
-        </StyledPanelItem>
-      </PanelBody>
+          <NewIssuesColumn>
+            <Count value={release.newGroups || 0} />
+          </NewIssuesColumn>
+        </Layout>
+      </StyledPanelItem>
+    </PanelBody>
 
-      {/*  TODO(releasesv2)if has release health data */}
-      {Math.random() > 0.6 && <ReleaseHealth release={release} />}
-    </Panel>
-  );
-};
+    {/*  TODO(releasesv2)if has release health data */}
+    {Math.random() > 0.6 && <ReleaseHealth release={release} />}
+  </Panel>
+);
 
 const StyledPanelItem = styled(PanelItem)`
   flex-direction: column;

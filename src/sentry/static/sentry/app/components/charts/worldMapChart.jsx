@@ -43,8 +43,8 @@ export default class WorldMapChart extends React.Component {
     }
 
     const {series, seriesOptions, ...props} = this.props;
-    const processedSeries = series.map(({seriesName, data, ...options}) => {
-      return MapSeries({
+    const processedSeries = series.map(({seriesName, data, ...options}) =>
+      MapSeries({
         ...seriesOptions,
         ...options,
         mapType: 'world',
@@ -68,8 +68,8 @@ export default class WorldMapChart extends React.Component {
           },
         },
         data,
-      });
-    });
+      })
+    );
 
     // TODO(billy):
     // For absolute values, we want min/max to based on min/max of series

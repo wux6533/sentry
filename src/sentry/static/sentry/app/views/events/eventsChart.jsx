@@ -151,40 +151,38 @@ class EventsChart extends React.Component {
             includePrevious={includePrevious}
             yAxis={yAxis}
           >
-            {({loading, reloading, errored, timeseriesData, previousTimeseriesData}) => {
-              return (
-                <ReleaseSeries utc={utc} api={api} projects={projects}>
-                  {({releaseSeries}) => {
-                    if (errored) {
-                      return (
-                        <ErrorPanel>
-                          <IconWarning color={theme.gray2} size="lg" />
-                        </ErrorPanel>
-                      );
-                    }
-                    if (loading && !reloading) {
-                      return <LoadingPanel data-test-id="events-request-loading" />;
-                    }
-
+            {({loading, reloading, errored, timeseriesData, previousTimeseriesData}) => (
+              <ReleaseSeries utc={utc} api={api} projects={projects}>
+                {({releaseSeries}) => {
+                  if (errored) {
                     return (
-                      <React.Fragment>
-                        <TransparentLoadingMask visible={reloading} />
-                        <EventsAreaChart
-                          {...zoomRenderProps}
-                          loading={loading}
-                          reloading={reloading}
-                          utc={utc}
-                          showLegend={showLegend}
-                          releaseSeries={releaseSeries}
-                          timeseriesData={timeseriesData}
-                          previousTimeseriesData={previousTimeseriesData}
-                        />
-                      </React.Fragment>
+                      <ErrorPanel>
+                        <IconWarning color={theme.gray2} size="lg" />
+                      </ErrorPanel>
                     );
-                  }}
-                </ReleaseSeries>
-              );
-            }}
+                  }
+                  if (loading && !reloading) {
+                    return <LoadingPanel data-test-id="events-request-loading" />;
+                  }
+
+                  return (
+                    <React.Fragment>
+                      <TransparentLoadingMask visible={reloading} />
+                      <EventsAreaChart
+                        {...zoomRenderProps}
+                        loading={loading}
+                        reloading={reloading}
+                        utc={utc}
+                        showLegend={showLegend}
+                        releaseSeries={releaseSeries}
+                        timeseriesData={timeseriesData}
+                        previousTimeseriesData={previousTimeseriesData}
+                      />
+                    </React.Fragment>
+                  );
+                }}
+              </ReleaseSeries>
+            )}
           </EventsRequest>
         )}
       </ChartZoom>

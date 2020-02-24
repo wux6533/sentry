@@ -11,19 +11,17 @@ type Props = {
   onShowAllImages: () => void;
 };
 
-const ImageForBar = ({frame, onShowAllImages}: Props) => {
-  return (
-    <Wrapper>
-      <MatchedFunctionWrapper>
-        <MatchedFunctionCaption>{t('Image for: ')}</MatchedFunctionCaption>
-        <FunctionName frame={frame} />
-      </MatchedFunctionWrapper>
-      <ResetAddressFilterCaption onClick={onShowAllImages}>
-        {t('Show all images')}
-      </ResetAddressFilterCaption>
-    </Wrapper>
-  );
-};
+const ImageForBar = ({frame, onShowAllImages}: Props) => (
+  <Wrapper>
+    <MatchedFunctionWrapper>
+      <MatchedFunctionCaption>{t('Image for: ')}</MatchedFunctionCaption>
+      <FunctionName frame={frame} />
+    </MatchedFunctionWrapper>
+    <ResetAddressFilterCaption onClick={onShowAllImages}>
+      {t('Show all images')}
+    </ResetAddressFilterCaption>
+  </Wrapper>
+);
 
 ImageForBar.propTypes = {
   frame: PropTypes.object.isRequired,

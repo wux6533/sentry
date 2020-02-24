@@ -67,24 +67,22 @@ class DropdownControl extends React.Component {
     return (
       <Container>
         <DropdownMenu alwaysRenderMenu={alwaysRenderMenu}>
-          {({isOpen, getMenuProps, getActorProps}) => {
-            return (
-              <React.Fragment>
-                {this.renderButton(isOpen, getActorProps)}
-                <MenuContainer
-                  {...getMenuProps()}
-                  alignMenu={alignRight ? 'right' : 'left'}
-                  width={menuWidth}
-                  menuOffset={menuOffset}
-                  isOpen={isOpen}
-                  blendCorner
-                  blendWithActor={blendWithActor}
-                >
-                  {children}
-                </MenuContainer>
-              </React.Fragment>
-            );
-          }}
+          {({isOpen, getMenuProps, getActorProps}) => (
+            <React.Fragment>
+              {this.renderButton(isOpen, getActorProps)}
+              <MenuContainer
+                {...getMenuProps()}
+                alignMenu={alignRight ? 'right' : 'left'}
+                width={menuWidth}
+                menuOffset={menuOffset}
+                isOpen={isOpen}
+                blendCorner
+                blendWithActor={blendWithActor}
+              >
+                {children}
+              </MenuContainer>
+            </React.Fragment>
+          )}
         </DropdownMenu>
       </Container>
     );

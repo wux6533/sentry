@@ -154,17 +154,15 @@ export default class ResolveActions extends React.Component {
                   <Tooltip title={actionTitle} containerDisplayMode="block">
                     <ActionLink
                       {...actionLinkProps}
-                      onAction={() => {
-                        return (
-                          hasRelease &&
-                          onUpdate({
-                            status: 'resolved',
-                            statusDetails: {
-                              inNextRelease: true,
-                            },
-                          })
-                        );
-                      }}
+                      onAction={() =>
+                        hasRelease &&
+                        onUpdate({
+                          status: 'resolved',
+                          statusDetails: {
+                            inNextRelease: true,
+                          },
+                        })
+                      }
                     >
                       {t('The next release')}
                     </ActionLink>
@@ -172,17 +170,15 @@ export default class ResolveActions extends React.Component {
                   <Tooltip title={actionTitle} containerDisplayMode="block">
                     <ActionLink
                       {...actionLinkProps}
-                      onAction={() => {
-                        return (
-                          hasRelease &&
-                          onUpdate({
-                            status: 'resolved',
-                            statusDetails: {
-                              inRelease: latestRelease ? latestRelease.version : 'latest',
-                            },
-                          })
-                        );
-                      }}
+                      onAction={() =>
+                        hasRelease &&
+                        onUpdate({
+                          status: 'resolved',
+                          statusDetails: {
+                            inRelease: latestRelease ? latestRelease.version : 'latest',
+                          },
+                        })
+                      }
                     >
                       {latestRelease
                         ? t(

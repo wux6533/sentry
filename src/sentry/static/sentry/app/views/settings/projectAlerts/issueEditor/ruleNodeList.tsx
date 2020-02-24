@@ -65,17 +65,15 @@ class RuleNodeList extends React.Component<Props> {
       <React.Fragment>
         {items && !!items.length && (
           <RuleNodes>
-            {items.map((item, idx) => {
-              return (
-                <RuleNode
-                  key={idx}
-                  node={this.getNode(item.id)}
-                  onDelete={() => onDeleteRow(idx)}
-                  data={item}
-                  onPropertyChange={onPropertyChange(idx)}
-                />
-              );
-            })}
+            {items.map((item, idx) => (
+              <RuleNode
+                key={idx}
+                node={this.getNode(item.id)}
+                onDelete={() => onDeleteRow(idx)}
+                data={item}
+                onPropertyChange={onPropertyChange(idx)}
+              />
+            ))}
           </RuleNodes>
         )}
         <StyledSelectControl

@@ -8,13 +8,13 @@ import {initializeOrg} from 'sentry-test/initializeOrg';
 import SentryAppDetailedView from 'app/views/organizationIntegrations/sentryAppDetailedView';
 
 const mockResponse = mocks => {
-  mocks.forEach(([url, body, method = 'GET']) => {
-    return Client.addMockResponse({
+  mocks.forEach(([url, body, method = 'GET']) =>
+    Client.addMockResponse({
       url,
       body,
       method,
-    });
-  });
+    })
+  );
 };
 
 describe('SentryAppDetailedView', function() {
