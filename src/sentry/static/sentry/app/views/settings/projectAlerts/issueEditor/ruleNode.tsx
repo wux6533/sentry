@@ -12,6 +12,7 @@ import Button from 'app/components/button';
 import Input from 'app/views/settings/components/forms/controls/input';
 import SelectControl from 'app/components/forms/selectControl';
 import space from 'app/styles/space';
+import ActorAwareFields from 'app/views/settings/projectAlerts/issueEditor/actorAwareFields';
 
 type FormField = {
   // Type of form fields
@@ -28,6 +29,12 @@ type Props = {
 };
 
 class RuleNode extends React.Component<Props> {
+  handleMailActionChange = (action: IssueAlertRuleAction) => {
+    const {onPropertyChange} = this.props;
+    onPropertyChange('targetType', `${action.targetType}`);
+    onPropertyChange('targetIdentifier', `${action.targetIdentifier}`);
+  };
+
   getChoiceField = (name: string, fieldConfig: FormField) => {
     // Select the first item on this list
     // If it's not yet defined, call onPropertyChange to make sure the value is set on state
@@ -105,11 +112,32 @@ class RuleNode extends React.Component<Props> {
     );
   };
 
+  getActorAwareFields = (_: string, __: FormField) => {
+    const {data} = this.props;
+    const isInitialized =
+      data?.targetType !== undefined && `${data.targetType}`.length > 0;
+    if (!isInitialized) {
+      const newData: IssueAlertRuleAction = {...(data as IssueAlertRuleAction)};
+      newData.targetType = 'Owner';
+      this.handleMailActionChange(newData);
+    }
+    return (
+      <ActorAwareFields
+        disabled={false}
+        loading={!isInitialized}
+        error={false}
+        action={data as IssueAlertRuleAction}
+        onChange={this.handleMailActionChange}
+      />
+    );
+  };
+
   getField = (name: string, fieldConfig: FormField) => {
     const getFieldTypes = {
       choice: this.getChoiceField,
       number: this.getNumberField,
       string: this.getTextField,
+      mailAction: this.getActorAwareFields,
     };
     return getFieldTypes[fieldConfig.type](name, fieldConfig);
   };
