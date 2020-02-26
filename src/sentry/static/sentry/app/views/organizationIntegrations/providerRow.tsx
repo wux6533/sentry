@@ -97,7 +97,7 @@ export default class ProviderRow extends React.Component<Props> {
     const upgradeable = !this.isEnabled && this.isEnabledPlugin && this.isUpgradable;
 
     return {
-      icon: upgradeable ? <IconUpgrade /> : <IconAdd circle />,
+      icon: upgradeable ? <IconUpgrade size="xs" /> : <IconAdd size="xs" circle />,
       children: this.isEnabled
         ? t('Add Another')
         : upgradeable
