@@ -21,66 +21,6 @@ import {getUtcToLocalDateObject} from 'app/utils/dates';
 import Chart from './chart';
 import Footer from './footer';
 
-type FooProps = {
-  api: Client;
-  eventView: EventView;
-  location: Location;
-  organization: Organization;
-};
-
-const Foo = (props: FooProps) => {
-  const {api, eventView, location, organization} = props;
-
-  // construct request parameters for fetching chart data
-
-  const globalSelection = eventView.getGlobalSelection();
-  const start = globalSelection.start
-    ? getUtcToLocalDateObject(globalSelection.start)
-    : undefined;
-
-  const end = globalSelection.end
-    ? getUtcToLocalDateObject(globalSelection.end)
-    : undefined;
-
-  const {utc} = getParams(location.query);
-
-  const yAxis = ['rpm()', 'apdex()'];
-
-  return (
-    <EventsRequest
-      organization={organization}
-      api={api}
-      period={globalSelection.statsPeriod}
-      project={globalSelection.project}
-      environment={globalSelection.environment}
-      start={start}
-      end={end}
-      interval={getInterval(
-        {
-          start: start || null,
-          end: end || null,
-          period: globalSelection.statsPeriod,
-        },
-        true
-      )}
-      showLoading={false}
-      query={eventView.getEventsAPIPayload(location).query}
-      includePrevious={false}
-      yAxis={yAxis}
-    >
-      {({loading, reloading, errored, results}) => {
-        console.log({
-          loading,
-          reloading,
-          errored,
-          results,
-        });
-        return <div>data</div>;
-      }}
-    </EventsRequest>
-  );
-};
-
 type Props = {
   api: Client;
   eventView: EventView;
@@ -147,21 +87,55 @@ class Container extends React.Component<Props, State> {
   render() {
     const {api, organization, location, eventView} = this.props;
 
-    const apdexEventView = eventView.clone();
-    apdexEventView.yAxis = 'apdex()';
+    // construct request parameters for fetching chart data
 
-    const rpmEventView = eventView.clone();
-    rpmEventView.yAxis = 'rpm()';
+    const globalSelection = eventView.getGlobalSelection();
+    const start = globalSelection.start
+      ? getUtcToLocalDateObject(globalSelection.start)
+      : undefined;
+
+    const end = globalSelection.end
+      ? getUtcToLocalDateObject(globalSelection.end)
+      : undefined;
+
+    const {utc} = getParams(location.query);
+
+    const yAxis = ['rpm()', 'apdex()'];
 
     return (
       <Panel>
         <ChartsContainer>
-          <Foo
-            api={api}
-            location={location}
-            eventView={eventView}
+          <EventsRequest
             organization={organization}
-          />
+            api={api}
+            period={globalSelection.statsPeriod}
+            project={globalSelection.project}
+            environment={globalSelection.environment}
+            start={start}
+            end={end}
+            interval={getInterval(
+              {
+                start: start || null,
+                end: end || null,
+                period: globalSelection.statsPeriod,
+              },
+              true
+            )}
+            showLoading={false}
+            query={eventView.getEventsAPIPayload(location).query}
+            includePrevious={false}
+            yAxis={yAxis}
+          >
+            {({loading, reloading, errored, results}) => {
+              console.log('lol', {
+                loading,
+                reloading,
+                errored,
+                results,
+              });
+              return <div>data</div>;
+            }}
+          </EventsRequest>
         </ChartsContainer>
         <Footer totals={this.state.totalValues} />
       </Panel>
