@@ -75,7 +75,7 @@ class Container extends React.Component<Props, State> {
   }
 
   render() {
-    const {api, organization, location, eventView} = this.props;
+    const {api, organization, location, eventView, router} = this.props;
 
     // construct request parameters for fetching chart data
 
@@ -131,7 +131,17 @@ class Container extends React.Component<Props, State> {
                 return (
                   <React.Fragment key={yAxis}>
                     {getDynamicText({
-                      value: <Chart yAxis={yAxis} data={results[yAxis]} />,
+                      value: (
+                        <Chart
+                          yAxis={yAxis}
+                          data={results[yAxis]}
+                          router={router}
+                          statsPeriod={globalSelection.statsPeriod}
+                          utc={utc === 'true'}
+                          projects={globalSelection.project}
+                          environments={globalSelection.environment}
+                        />
+                      ),
                       fixed: 'events chart',
                     })}
                   </React.Fragment>
