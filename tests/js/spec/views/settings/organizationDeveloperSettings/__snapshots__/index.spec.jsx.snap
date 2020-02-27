@@ -268,12 +268,12 @@ exports[`Organization Developer Settings when no Apps exist displays empty state
                                         size="small"
                                       >
                                         <Component
-                                          className="css-1299qb2-Icon edwq9my2"
+                                          className="css-5zck09-Icon edwq9my2"
                                           hasChildren={true}
                                           size="small"
                                         >
                                           <span
-                                            className="css-1299qb2-Icon edwq9my2"
+                                            className="css-5zck09-Icon edwq9my2"
                                             size="small"
                                           >
                                             <IconAdd
@@ -449,12 +449,12 @@ exports[`Organization Developer Settings when no Apps exist displays empty state
                                         size="small"
                                       >
                                         <Component
-                                          className="css-1299qb2-Icon edwq9my2"
+                                          className="css-5zck09-Icon edwq9my2"
                                           hasChildren={true}
                                           size="small"
                                         >
                                           <span
-                                            className="css-1299qb2-Icon edwq9my2"
+                                            className="css-5zck09-Icon edwq9my2"
                                             size="small"
                                           >
                                             <IconAdd

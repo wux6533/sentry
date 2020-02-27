@@ -1112,12 +1112,12 @@ exports[`RuleBuilder renders 1`] = `
                           size="small"
                         >
                           <Component
-                            className="css-heib7e-Icon edwq9my2"
+                            className="css-1j44i9a-Icon edwq9my2"
                             hasChildren={false}
                             size="small"
                           >
                             <span
-                              className="css-heib7e-Icon edwq9my2"
+                              className="css-1j44i9a-Icon edwq9my2"
                               size="small"
                             >
                               <IconAdd
@@ -3122,12 +3122,12 @@ exports[`RuleBuilder renders with suggestions 1`] = `
                           size="small"
                         >
                           <Component
-                            className="css-heib7e-Icon edwq9my2"
+                            className="css-1j44i9a-Icon edwq9my2"
                             hasChildren={false}
                             size="small"
                           >
                             <span
-                              className="css-heib7e-Icon edwq9my2"
+                              className="css-1j44i9a-Icon edwq9my2"
                               size="small"
                             >
                               <IconAdd

@@ -1585,11 +1585,11 @@ exports[`CreateProject should deal with incorrect platform name if its provided 
                                                 hasChildren={false}
                                               >
                                                 <Component
-                                                  className="css-heib7e-Icon edwq9my2"
+                                                  className="css-1j44i9a-Icon edwq9my2"
                                                   hasChildren={false}
                                                 >
                                                   <span
-                                                    className="css-heib7e-Icon edwq9my2"
+                                                    className="css-1j44i9a-Icon edwq9my2"
                                                   >
                                                     <IconAdd
                                                       circle={true}
@@ -2205,12 +2205,12 @@ exports[`CreateProject should fill in platform name if its provided by url 1`] =
                                       size="xsmall"
                                     >
                                       <Component
-                                        className="css-heib7e-Icon edwq9my2"
+                                        className="css-1j44i9a-Icon edwq9my2"
                                         hasChildren={false}
                                         size="xsmall"
                                       >
                                         <span
-                                          className="css-heib7e-Icon edwq9my2"
+                                          className="css-1j44i9a-Icon edwq9my2"
                                           size="xsmall"
                                         >
                                           <StyledInlineSvg
@@ -2607,11 +2607,11 @@ exports[`CreateProject should fill in platform name if its provided by url 1`] =
                                                 hasChildren={false}
                                               >
                                                 <Component
-                                                  className="css-heib7e-Icon edwq9my2"
+                                                  className="css-1j44i9a-Icon edwq9my2"
                                                   hasChildren={false}
                                                 >
                                                   <span
-                                                    className="css-heib7e-Icon edwq9my2"
+                                                    className="css-1j44i9a-Icon edwq9my2"
                                                   >
                                                     <IconAdd
                                                       circle={true}
@@ -3127,12 +3127,12 @@ exports[`CreateProject should fill in project name if its empty when platform is
                                       size="xsmall"
                                     >
                                       <Component
-                                        className="css-heib7e-Icon edwq9my2"
+                                        className="css-1j44i9a-Icon edwq9my2"
                                         hasChildren={false}
                                         size="xsmall"
                                       >
                                         <span
-                                          className="css-heib7e-Icon edwq9my2"
+                                          className="css-1j44i9a-Icon edwq9my2"
                                           size="xsmall"
                                         >
                                           <StyledInlineSvg
@@ -4329,11 +4329,11 @@ exports[`CreateProject should fill in project name if its empty when platform is
                                                 hasChildren={false}
                                               >
                                                 <Component
-                                                  className="css-heib7e-Icon edwq9my2"
+                                                  className="css-1j44i9a-Icon edwq9my2"
                                                   hasChildren={false}
                                                 >
                                                   <span
-                                                    className="css-heib7e-Icon edwq9my2"
+                                                    className="css-1j44i9a-Icon edwq9my2"
                                                   >
                                                     <IconAdd
                                                       circle={true}

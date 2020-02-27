@@ -346,12 +346,12 @@ exports[`Sentry App Installations displays all Apps owned by the Org 1`] = `
                                       size="small"
                                     >
                                       <Component
-                                        className="css-1299qb2-Icon edwq9my2"
+                                        className="css-5zck09-Icon edwq9my2"
                                         hasChildren={true}
                                         size="small"
                                       >
                                         <span
-                                          className="css-1299qb2-Icon edwq9my2"
+                                          className="css-5zck09-Icon edwq9my2"
                                           size="small"
                                         >
                                           <IconAdd
