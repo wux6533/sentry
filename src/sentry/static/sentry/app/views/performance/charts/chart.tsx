@@ -37,6 +37,7 @@ class Chart extends React.Component<Props> {
             top: '24px',
             bottom: '12px',
           }}
+          utc
           isGroupedByDate
           showTimeInTooltip
         />
