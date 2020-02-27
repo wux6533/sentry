@@ -74,19 +74,6 @@ class Container extends React.Component<Props, State> {
     }
   }
 
-  renderCharts = () => {
-    YAXIS_OPTIONS.map(yAxis => {
-      return (
-        <React.Fragment key={yAxis}>
-          {getDynamicText({
-            value: <Chart />,
-            fixed: 'events chart',
-          })}
-        </React.Fragment>
-      );
-    });
-  };
-
   render() {
     const {api, organization, location, eventView} = this.props;
 
@@ -136,19 +123,20 @@ class Container extends React.Component<Props, State> {
                 );
               }
 
-              loading = true;
-
               if (loading || reloading || !results) {
                 return <LoadingPanel data-test-id="events-request-loading" />;
               }
 
-              console.log('lol', {
-                loading,
-                reloading,
-                errored,
-                results,
+              return YAXIS_OPTIONS.map(yAxis => {
+                return (
+                  <React.Fragment key={yAxis}>
+                    {getDynamicText({
+                      value: <Chart data={results[yAxis]} />,
+                      fixed: 'events chart',
+                    })}
+                  </React.Fragment>
+                );
               });
-              return <div>data</div>;
             }}
           </EventsRequest>
         </ChartsContainer>

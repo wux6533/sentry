@@ -12,11 +12,22 @@ import {getUtcToLocalDateObject} from 'app/utils/dates';
 import {Organization} from 'app/types';
 import EventView from 'app/views/eventsV2/eventView';
 import {EventsChart} from 'app/views/events/eventsChart';
+import {TimeSeriesData} from 'app/views/events/utils/eventsRequest';
 
-type Props = {};
+type Props = {
+  data: TimeSeriesData;
+};
 
 class Chart extends React.Component<Props> {
   render() {
+    const {data} = this.props;
+    const {timeseriesData} = data;
+
+    if (!timeseriesData) {
+      return null;
+    }
+
+    console.log('this.props', timeseriesData);
     return <Container>foo</Container>;
   }
 }
