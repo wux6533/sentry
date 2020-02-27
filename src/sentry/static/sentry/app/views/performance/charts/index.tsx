@@ -131,7 +131,7 @@ class Container extends React.Component<Props, State> {
                 return (
                   <React.Fragment key={yAxis}>
                     {getDynamicText({
-                      value: <Chart data={results[yAxis]} />,
+                      value: <Chart yAxis={yAxis} data={results[yAxis]} />,
                       fixed: 'events chart',
                     })}
                   </React.Fragment>
