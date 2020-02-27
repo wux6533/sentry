@@ -6,9 +6,7 @@ import * as ReactRouter from 'react-router';
 
 import isEqual from 'lodash/isEqual';
 
-import {Client} from 'app/api';
-import {getParams} from 'app/components/organizations/globalSelectionHeader/getParams';
-import {getUtcToLocalDateObject} from 'app/utils/dates';
+import AreaChart from 'app/components/charts/areaChart';
 import {Organization} from 'app/types';
 import EventView from 'app/views/eventsV2/eventView';
 import {EventsChart} from 'app/views/events/eventsChart';
@@ -28,7 +26,22 @@ class Chart extends React.Component<Props> {
     }
 
     console.log('this.props', timeseriesData);
-    return <Container>foo</Container>;
+    return (
+      <Container>
+        <AreaChart
+          series={timeseriesData}
+          seriesOptions={{
+            showSymbol: false,
+          }}
+          grid={{
+            left: '24px',
+            right: '24px',
+            top: '24px',
+            bottom: '12px',
+          }}
+        />
+      </Container>
+    );
   }
 }
 
