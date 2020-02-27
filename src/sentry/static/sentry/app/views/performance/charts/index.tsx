@@ -123,7 +123,7 @@ class Container extends React.Component<Props, State> {
                 );
               }
 
-              if (loading || reloading || !results) {
+              if (!results) {
                 return <LoadingPanel data-test-id="events-request-loading" />;
               }
 
@@ -133,6 +133,7 @@ class Container extends React.Component<Props, State> {
                     {getDynamicText({
                       value: (
                         <Chart
+                          loading={loading || reloading}
                           yAxis={yAxis}
                           data={results[yAxis]}
                           router={router}

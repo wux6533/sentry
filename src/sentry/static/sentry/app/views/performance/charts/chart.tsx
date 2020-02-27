@@ -16,11 +16,21 @@ type Props = {
   utc: boolean;
   projects: number[];
   environments: string[];
+  loading: boolean;
 };
 
 class Chart extends React.Component<Props> {
   render() {
-    const {data, yAxis, router, statsPeriod, utc, projects, environments} = this.props;
+    const {
+      data,
+      yAxis,
+      router,
+      statsPeriod,
+      utc,
+      projects,
+      environments,
+      loading,
+    } = this.props;
     const {timeseriesData} = data;
 
     if (!timeseriesData || timeseriesData.length <= 0) {
@@ -29,8 +39,32 @@ class Chart extends React.Component<Props> {
 
     timeseriesData[0].seriesName = yAxis;
 
+    const areaChartProps = {
+      seriesOptions: {
+        showSymbol: false,
+      },
+      grid: {
+        left: '24px',
+        right: '24px',
+        top: '24px',
+        bottom: '12px',
+      },
+      utc,
+      isGroupedByDate: true,
+      showTimeInTooltip: true,
+    };
+
+    if (loading) {
+      return (
+        <Container key="loading">
+          <HeaderTitle>{yAxis}</HeaderTitle>
+          <AreaChart series={[]} {...areaChartProps} />
+        </Container>
+      );
+    }
+
     return (
-      <Container>
+      <Container key="loaded">
         <HeaderTitle>{yAxis}</HeaderTitle>
         <ChartZoom
           router={router}
@@ -44,18 +78,7 @@ class Chart extends React.Component<Props> {
               <AreaChart
                 {...zoomRenderProps}
                 series={timeseriesData}
-                seriesOptions={{
-                  showSymbol: false,
-                }}
-                grid={{
-                  left: '24px',
-                  right: '24px',
-                  top: '24px',
-                  bottom: '12px',
-                }}
-                utc
-                isGroupedByDate
-                showTimeInTooltip
+                {...areaChartProps}
               />
             );
           }}
