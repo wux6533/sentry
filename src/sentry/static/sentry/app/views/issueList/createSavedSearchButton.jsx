@@ -103,7 +103,7 @@ class CreateSavedSearchButton extends React.Component {
           containerDisplayMode="inline-flex"
           type="button"
           aria-label={t('Add to organization saved searches')}
-          icon={<IconAdd circle />}
+          icon={<IconAdd size="xs" />}
           className={buttonClassName}
         >
           {!iconOnly && t('Create Saved Search')}
