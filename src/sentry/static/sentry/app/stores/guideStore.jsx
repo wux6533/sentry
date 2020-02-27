@@ -8,7 +8,6 @@ import ConfigStore from 'app/stores/configStore';
 import getGuideContent from 'app/components/assistant/getGuideContent';
 import GuideActions from 'app/actions/guideActions';
 import OrganizationsActions from 'app/actions/organizationsActions';
-import ProjectActions from 'app/actions/projectActions';
 
 const GuideStore = Reflux.createStore({
   init() {
@@ -38,7 +37,6 @@ const GuideStore = Reflux.createStore({
     this.listenTo(GuideActions.registerAnchor, this.onRegisterAnchor);
     this.listenTo(GuideActions.unregisterAnchor, this.onUnregisterAnchor);
     this.listenTo(OrganizationsActions.setActive, this.onSetActiveOrganization);
-    this.listenTo(ProjectActions.setActive, this.onSetActiveProject);
     this.listenTo(OrganizationsActions.changeSlug, this.onChangeOrgSlug);
 
     window.addEventListener('load', this.onURLChange, false);
@@ -52,11 +50,6 @@ const GuideStore = Reflux.createStore({
 
   onSetActiveOrganization(data) {
     this.state.org = data;
-    this.updateCurrentGuide();
-  },
-
-  onSetActiveProject(data) {
-    this.state.project = data;
     this.updateCurrentGuide();
   },
 
@@ -120,10 +113,8 @@ const GuideStore = Reflux.createStore({
       eventKey: 'assistant.guide_cued',
       eventName: 'Assistant Guide Cued',
       guide: id,
+      organization_id: this.state.org ? this.state.org.id : null,
     };
-    if (this.state.org) {
-      data.organization_id = this.state.org.id;
-    }
     trackAnalyticsEvent(data);
   },
 

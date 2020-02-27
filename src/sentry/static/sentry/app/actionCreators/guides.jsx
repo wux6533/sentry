@@ -46,10 +46,8 @@ export function recordFinish(guideId, org) {
     eventKey: 'assistant.guide_finished',
     eventName: 'Assistant Guide Finished',
     guide: guideId,
+    organization_id: org ? org.id : null,
   };
-  if (org) {
-    data.organization_id = org.id;
-  }
   trackAnalyticsEvent(data);
 }
 
@@ -66,9 +64,7 @@ export function recordDismiss(guideId, step, org) {
     eventName: 'Assistant Guide Dismissed',
     guide: guideId,
     step,
+    organization_id: org ? org.id : null,
   };
-  if (org) {
-    data.organization_id = org.id;
-  }
   trackAnalyticsEvent(data);
 }
