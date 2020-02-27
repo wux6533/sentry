@@ -16,7 +16,7 @@ import EventView from 'app/views/eventsV2/eventView';
 import {getUtcToLocalDateObject} from 'app/utils/dates';
 import {getParams} from 'app/components/organizations/globalSelectionHeader/getParams';
 
-import {generatePerformanceQuery} from './data';
+import {generatePerformanceQuery, DEFAULT_STATS_PERIOD} from './data';
 import Table from './table';
 import Charts from './charts/index';
 
@@ -90,6 +90,21 @@ class PerformanceLanding extends React.Component<Props, State> {
     };
   };
 
+  allowClearTimeRange = (): boolean => {
+    const {datetime} = this.generateGlobalSelection();
+    const {start, end, period} = datetime;
+
+    if (period === DEFAULT_STATS_PERIOD) {
+      return false;
+    }
+
+    if ((start && end) || typeof period === 'string') {
+      return true;
+    }
+
+    return false;
+  };
+
   render() {
     const {organization, location, router} = this.props;
     const {eventView} = this.state;
@@ -100,7 +115,7 @@ class PerformanceLanding extends React.Component<Props, State> {
           <GlobalSelectionHeader
             organization={organization}
             selection={this.generateGlobalSelection()}
-            allowClearTimeRange={false}
+            allowClearTimeRange={this.allowClearTimeRange()}
           />
           <PageContent>
             <NoProjectMessage organization={organization}>

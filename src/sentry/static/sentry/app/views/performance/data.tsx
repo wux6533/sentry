@@ -2,6 +2,8 @@ import {t} from 'app/locale';
 import {NewQuery} from 'app/types';
 import {Location} from 'history';
 
+export const DEFAULT_STATS_PERIOD = '24h';
+
 export const PERFORMANCE_EVENT_VIEW: Readonly<NewQuery> = {
   id: undefined,
   name: t('Performance'),
@@ -28,7 +30,7 @@ export function generatePerformanceQuery(location: Location): Readonly<NewQuery>
   const hasStartAndEnd = query.start && query.end;
 
   if (!query?.statsPeriod && !hasStartAndEnd) {
-    extra.range = '24h';
+    extra.range = DEFAULT_STATS_PERIOD;
   }
 
   if (!query?.sort) {
