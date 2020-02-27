@@ -29,6 +29,7 @@ describe('ProjectAlertSettings', function() {
   it('renders', function() {
     const wrapper = mountWithTheme(
       <ProjectAlertSettings
+        canEditRule
         params={{orgId: organization.slug, projectId: project.slug}}
         organization={organization}
         routes={[]}
